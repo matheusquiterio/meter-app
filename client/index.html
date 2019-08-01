@@ -1,0 +1,146 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hyperledger Fabric House Application</title>
+    <link rel="icon" href="favicon.png" type="image/gif">
+
+    <!-- require jquery and bootstrap scripts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    
+    <!-- adding style here -->
+    <style type="text/css">
+      header{
+        background-color: lightgray;
+        font-size:20px;
+        padding:15px;
+      }
+      header, .form-group{
+        margin-bottom: 3%;
+      }
+      .form-group{
+        width:50%;
+      }
+      #body{
+        margin-left:3%;
+        margin-right:3%;
+      }
+      .form-control{
+        margin: 8px;
+      }
+      #right_header{
+        width:20%;
+        font-size:15px;
+        margin-right:0px;
+      }
+      #left_header{
+        margin-left:0;
+        width:40%;
+        display:inline-block;
+      } 
+      #id {
+        width:49%;
+        display: inline-block;
+      }
+      table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+      }
+      td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+      }
+      tr:nth-child(even) {
+          background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body ng-app="application" ng-controller="appController">
+    <header>
+      <div id="left_header">Hyperledger Fabric House Application</div>
+      <i id="right_header">Example Blockchain Application for Introduction to Hyperledger Fabric LFS171x</i>
+    </header>
+
+    <div id="body">
+      <div class="form-group">
+        <label>Query All Houses</label>
+        <p><input id="queryAllHouses" type="submit" value="Query" class="btn btn-primary" ng-click="queryAllHouses()"></p>
+      </div>
+ 
+      <table id="all_houses" class="table" align="center">
+
+        <tr>
+          <th>ID</th>
+          <th>OwnerID</th>
+          <th>Active (kW) </th>
+          <th>Reactive (kVar)</th>          
+          <th>Solar (VA)</th>          
+        </tr>
+
+        <tr ng-repeat="house in all_houses">
+          <td>{{house.Key}}</td>
+          <td>{{house.ownerID}}</td>
+          <td>{{house.active}}</td>
+          <td>{{house.reactive}}</td>          
+          <td>{{house.solar}}</td>
+          
+        </tr>
+      </table>
+
+      <div class="form-group">
+        <label>Query a Specific House</label><br>
+        <h5 style="color:red;margin-bottom:2%" id="error_query">Error: Please enter a valid House Id</h5>
+        
+        Enter a house number: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="house_id">
+        <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryHouse()">
+      </div>
+
+      <table id="query_house" class="table" align="center">
+
+        <tr>
+          <th>OwnerID</th>
+          <th>Active (kW) </th>
+          <th>Reactive (kVar)</th>          
+          <th>Solar (VA)</th>          
+        </tr>
+
+        <tr>
+          <td>{{query_house.ownerID}}</td>
+          <td>{{query_house.active}}</td>
+          <td>{{query_house.reactive}}</td>          
+          <td>{{query_house.solar}}</td>          
+        </tr>
+      </table>
+
+      <div class="form-group">
+        <label>Create House Record</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_create">Success! Tx ID: {{create_house}}</h5>
+        <br>
+        Enter id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="house.id">
+        Enter ownerID: <input class="form-control" type="text" placeholder="Ex: Fabio" ng-model="house.ownerID">
+        Enter quantity of active energy: <input class="form-control" type="text" placeholder="Ex: 239" ng-model="house.active">
+        Enter reactive: <input class="form-control" type="text" placeholder="Ex: 33" ng-model="house.reactive">
+        Enter Solar: <input id="createName" class="form-control" type="text" placeholder="Ex: 28" ng-model="house.solar"> 
+        <input id="createSubmit" type="submit" value="Create" class="btn btn-primary" ng-click="createHouse()"> 
+      </div>
+
+      <div class="form-group">
+        <label>Change House Owner</label><br>
+        <h5 style="color:green;margin-bottom:2%" id="success_holder">Success! Tx ID: {{change_owner}}</h5>
+        <h5 style="color:red;margin-bottom:2%" id="error_holder">Error: Please enter a valid House Id</h5>
+        Enter a ownerID: <input class="form-control" name="assetSelect" placeholder="Ex: 1" ng-model="ownerID.id">
+        Enter new ownerID: <input class="form-control" name="assetSelect" placeholder="Ex: Carlos" ng-model="ownerID.name">
+        <input id="transferSubmit" type="submit" value="Change" class="btn btn-primary" ng-click="changeOwner()">
+      </div>
+
+    </div>
+  </body>
+    <!-- requiring the angular page -->
+    <script type="text/javascript" src="app.js"> </script>
+</html>
