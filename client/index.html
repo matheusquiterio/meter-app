@@ -76,19 +76,21 @@
       <table id="all_houses" class="table" align="center">
 
         <tr>
-          <th>ID</th>
+          <th>House ID</th>
           <th>OwnerID</th>
-          <th>Active (kW) </th>
-          <th>Reactive (kVar)</th>          
-          <th>Solar (VA)</th>          
+          <th>Previous Energy Measure (kWh)</th>
+          <th>Actual Energy Measure (kWh)</th>          
+          <th>Solar (VA)</th> 
+          <th>Month Energy</th>         
         </tr>
 
         <tr ng-repeat="house in all_houses">
           <td>{{house.Key}}</td>
           <td>{{house.ownerID}}</td>
-          <td>{{house.active}}</td>
-          <td>{{house.reactive}}</td>          
+          <td>{{house.prevEnergy}}</td>
+          <td>{{house.newEnergy}}</td>          
           <td>{{house.solar}}</td>
+          <td>{{house.monthEnergy}}</td>
           
         </tr>
       </table>
@@ -105,15 +107,15 @@
 
         <tr>
           <th>OwnerID</th>
-          <th>Active (kW) </th>
-          <th>Reactive (kVar)</th>          
+          <th>Previous Energy Measure (kWh)</th>
+          <th>Actual Energy Measure (kWh)</th>          
           <th>Solar (VA)</th>          
         </tr>
 
         <tr>
           <td>{{query_house.ownerID}}</td>
-          <td>{{query_house.active}}</td>
-          <td>{{query_house.reactive}}</td>          
+          <td>{{query_house.prevEnergy}}</td>
+          <td>{{query_house.newEnergy}}</td>          
           <td>{{query_house.solar}}</td>          
         </tr>
       </table>
@@ -122,10 +124,10 @@
         <label>Create House Record</label>
         <h5 style="color:green;margin-bottom:2%" id="success_create">Success! Tx ID: {{create_house}}</h5>
         <br>
-        Enter id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="house.id">
+        Enter House ID: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="house.id">
         Enter ownerID: <input class="form-control" type="text" placeholder="Ex: Fabio" ng-model="house.ownerID">
-        Enter quantity of active energy: <input class="form-control" type="text" placeholder="Ex: 239" ng-model="house.active">
-        Enter reactive: <input class="form-control" type="text" placeholder="Ex: 33" ng-model="house.reactive">
+        Enter energy of previous month: <input class="form-control" type="text" placeholder="Ex: 239" ng-model="house.prevEnergy">
+        Enter actual month energy: <input class="form-control" type="text" placeholder="Ex: 33" ng-model="house.newEnergy">
         Enter Solar: <input id="createName" class="form-control" type="text" placeholder="Ex: 28" ng-model="house.solar"> 
         <input id="createSubmit" type="submit" value="Create" class="btn btn-primary" ng-click="createHouse()"> 
       </div>
@@ -134,10 +136,20 @@
         <label>Change House Owner</label><br>
         <h5 style="color:green;margin-bottom:2%" id="success_holder">Success! Tx ID: {{change_owner}}</h5>
         <h5 style="color:red;margin-bottom:2%" id="error_holder">Error: Please enter a valid House Id</h5>
-        Enter a ownerID: <input class="form-control" name="assetSelect" placeholder="Ex: 1" ng-model="ownerID.id">
+        Enter a House ID: <input class="form-control" name="assetSelect" placeholder="Ex: 1" ng-model="ownerID.id">
         Enter new ownerID: <input class="form-control" name="assetSelect" placeholder="Ex: Carlos" ng-model="ownerID.name">
         <input id="transferSubmit" type="submit" value="Change" class="btn btn-primary" ng-click="changeOwner()">
       </div>
+
+      <div class="form-group">
+          <label>Update Measures</label><br>
+          <h5 style="color:green;margin-bottom:2%" id="success_measures">Success! Tx ID: {{update_measures}}</h5>
+          <h5 style="color:red;margin-bottom:2%" id="error_measures">Error: Please enter a valid House Id</h5>
+          Enter a house ID: <input class="form-control" name="assetSelect" placeholder="Ex: 1" ng-model="measures.id">
+          Enter new energy: <input class="form-control" name="assetSelect" placeholder="Ex: 800" ng-model="measures.newEnergy">
+          Enter solar: <input class="form-control" name="assetSelect" placeholder="Ex: 100" ng-model="measures.solar">
+          <input id="transferSubmit" type="submit" value="Change" class="btn btn-primary" ng-click="updateMeasures()">
+        </div>
 
     </div>
   </body>

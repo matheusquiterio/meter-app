@@ -9,9 +9,11 @@ app.controller('appController', function($scope, appFactory){
 
 	$("#success_holder").hide();
 	$("#success_create").hide();
+	$("#success_measures").hide();
 	$("#error_holder").hide();
 	$("#error_query").hide();
-	
+	$("#error_measures").hide();
+		
 	$scope.queryAllHouses = function(){
 
 		appFactory.queryAllHouses(function(data){
@@ -56,12 +58,26 @@ app.controller('appController', function($scope, appFactory){
 
 		appFactory.changeOwner($scope.ownerID, function(data){
 			$scope.change_owner = data;
-			if ($scope.change_owner == "Error: no house catch found"){
+			if ($scope.change_owner == "Error: no house found"){
 				$("#error_holder").show();
 				$("#success_holder").hide();
 			} else{
 				$("#success_holder").show();
 				$("#error_holder").hide();
+			}
+		});
+	}
+
+	$scope.updateMeasures = function(){
+
+		appFactory.updateMeasures($scope.measures, function(data){
+			$scope.update_measures = data;
+			if ($scope.update_measures == "Error: no house found"){
+				$("#error_measures").show();
+				$("#success_measures").hide();
+			} else{
+				$("#success_measures").show();
+				$("#error_measures").hide();
 			}
 		});
 	}
@@ -88,7 +104,7 @@ app.factory('appFactory', function($http){
 
 	factory.createHouse = function(data, callback){
 
-		var house = data.id + "-" + data.solar + "-" + data.reactive + "-" + data.ownerID + "-" + data.active;
+		var house = data.id + "-" + data.solar + "-" + data.newEnergy + "-" + data.ownerID + "-" + data.prevEnergy;
 
     	$http.get('/add_house/'+house).success(function(output){
 			callback(output)
@@ -101,6 +117,15 @@ app.factory('appFactory', function($http){
 		//var ownerID = data.id;
 
     	$http.get('/change_owner/'+ownerID).success(function(output){
+			callback(output)
+		});
+	}
+
+	factory.updateMeasures = function(data, callback){
+
+		var measures = data.id + "-" + data.newEnergy + "-" + data.solar;
+		
+    	$http.get('/update_measures/'+measures).success(function(output){
 			callback(output)
 		});
 	}

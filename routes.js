@@ -16,4 +16,7 @@ module.exports = function(app){
   app.get('/change_owner/:ownerID', function(req, res){
     house.change_owner(req, res);
   });
+  app.get('/update_measures/:measures', function(req, res){
+    house.update_measures(req, res);
+  });
 }
